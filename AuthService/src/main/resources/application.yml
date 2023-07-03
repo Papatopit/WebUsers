@@ -1,6 +1,6 @@
 spring:
   application:
-    name: UserService
+    name: AuthService
 
   server:
     port: 8081

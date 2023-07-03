@@ -1,4 +1,4 @@
-package org.authService.entity;
+package org.userService.entity;
 
 public enum Role {
     ADMIN,

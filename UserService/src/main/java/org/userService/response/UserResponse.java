@@ -1,11 +1,10 @@
-package org.authService.response;
+package org.userService.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.authService.entity.Role;
-import org.springframework.lang.NonNull;
+import org.userService.entity.Role;
 
 import java.util.Date;
 @Getter
