@@ -15,10 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     @Autowired
     private UserService userService;
+
+
     @GetMapping("/users/{id}")
     private ResponseEntity<UserResponse> getUserDetails(@PathVariable("id") Long id){
         UserResponse userResponse = userService.getUserBuId(id);
         log.info("Get User Details from UserController: {}",userResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(userResponse);
+    }
+    @GetMapping("/role/{userId}")
+    public ResponseEntity<UserResponse> getAddressByEmployeeId(@PathVariable("userId") Long userId) {
+        UserResponse userResponse = userService.findRoleByUserId(userId);
         return ResponseEntity.status(HttpStatus.OK).body(userResponse);
     }
 

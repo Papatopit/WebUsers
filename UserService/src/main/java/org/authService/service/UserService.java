@@ -24,11 +24,20 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private ModelMapper mapper;
+    @Autowired
+    private WebClient webClient;
 
     public UserResponse getUserBuId(Long id){
         Optional<User> user = userRepository.findById(id);
         log.info("get User By Id from UserService:  {}",user);
         UserResponse userResponse= mapper.map(user, UserResponse.class);
+        return userResponse;
+    }
+    public UserResponse findRoleByUserId(Long userId){
+        Optional<Role> roleByUserId = userRepository.findRoleByUserId(userId);
+        UserResponse userResponse = webClient.get().uri("/user/" + userId)
+                .retrieve().bodyToMono(UserResponse.class).block();
+
         return userResponse;
     }
 

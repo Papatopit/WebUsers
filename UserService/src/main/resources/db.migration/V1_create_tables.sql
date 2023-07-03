@@ -6,6 +6,7 @@ create table users
     email   varchar(255) not null,
     birthday timestamp not null,
     role      varchar(255),
+    password varchar(255) not null,
     primary key (id)
 );
 
