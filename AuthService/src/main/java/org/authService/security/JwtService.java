@@ -11,17 +11,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
 public class JwtService {
-    @Value("${application.security.jwt.secret-key}")
+    @Value("${spring.application.security.jwt.secret-key}")
     private String secretKey;
-    @Value("${application.security.jwt.expiration}")
+    @Value("${spring.application.security.jwt.expiration}")
     private long jwtExpiration;
-    @Value("${application.security.jwt.refresh-token.expiration}")
+    @Value("${spring.application.security.jwt.refresh-token.expiration}")
     private long refreshExpiration;
 
     public String extractUsername(String token) {
