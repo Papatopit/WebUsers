@@ -17,18 +17,9 @@ import java.util.Optional;
 @Slf4j
 public class UserServiceWebClient {
     @Autowired
-    private WebClient webClient;
-    @Autowired
     private UserRepository userRepository;
     @Autowired
     private ModelMapper mapper;
-
-    public JsonNode findRoleByUserId(Long id) {
-        JsonNode jsonNode = webClient.get().uri("/role/" + id)
-                .retrieve().bodyToMono(JsonNode.class).block();
-
-        return jsonNode;
-    }
 
     public UserResponse getUserById(Long id) {
         Optional<User> user = userRepository.findById(id);
@@ -42,6 +33,7 @@ public class UserServiceWebClient {
     }
 
     public User saveUser(User user) {
+        log.info("SAVE in DB user name: {}", user);
         return userRepository.save(user);
     }
 

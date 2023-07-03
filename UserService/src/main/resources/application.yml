@@ -23,7 +23,3 @@ spring:
       settings:
         web-allow-others: true
 
-
-addressservice:
-  base:
-    url: http://localhost:8080/

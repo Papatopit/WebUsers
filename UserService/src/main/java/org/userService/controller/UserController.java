@@ -34,11 +34,11 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userResponse);
     }
 
-    @GetMapping("/role/{id}")
-    public ResponseEntity<JsonNode> getRoleByUserId(@PathVariable("id") Long id) {
-        JsonNode jsonNode = userServiceWebClient.findRoleByUserId(id);
-        return ResponseEntity.status(HttpStatus.OK).body(jsonNode);
-    }
+//    @GetMapping("/role/{id}")
+//    public ResponseEntity<JsonNode> getRoleByUserId(@PathVariable("id") Long id) {
+//        JsonNode jsonNode = userServiceWebClient.findRoleByUserId(id);
+//        return ResponseEntity.status(HttpStatus.OK).body(jsonNode);
+//    }
 
     @PutMapping("/create")
     private ResponseEntity<User> createUser(@RequestBody User user) {
