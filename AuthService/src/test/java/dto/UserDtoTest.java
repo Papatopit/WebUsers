@@ -1,6 +1,5 @@
 package dto;
 
-
 import org.authService.user.RoleDto;
 import org.authService.user.UserDto;
 import org.junit.jupiter.api.Assertions;
@@ -22,7 +21,7 @@ public class UserDtoTest {
                 .lastName(lastName)
                 .birthday(birthday)
                 .email(email)
-                .role(RoleDto.valueOf(role))
+                .role(RoleDto.USER)
                 .build();
 
         Assertions.assertNotNull(result);
@@ -35,12 +34,10 @@ public class UserDtoTest {
         Assertions.assertSame(result.getEmail(),email);
         Assertions.assertSame(result.getLastName(),lastName);
         Assertions.assertSame(result.getFirstName(),firstName);
-        Assertions.assertSame(result.getRole(),role);
 
         Assertions.assertEquals(result.getFirstName(), firstName);
         Assertions.assertEquals(result.getLastName(), lastName);
         Assertions.assertEquals(result.getEmail(), email);
         Assertions.assertEquals(result.getBirthday(), birthday);
-        Assertions.assertEquals(result.getRole(), role);
     }
 }

@@ -5,6 +5,9 @@ spring:
     port: 8080
 
 #  security:
+#    user:
+#      name: admin
+#      password: admin
 #    jwt:
 #      secret-key: secret
 #      expiration: 86400000 # a day
