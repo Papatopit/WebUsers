@@ -31,7 +31,7 @@ public class User {
     private String email;
     @NonNull
     @Column(name = "birthday")
-    private Date birthday;
+    private String birthday;
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;

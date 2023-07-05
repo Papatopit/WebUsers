@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.userService.entity.Role;
 import org.userService.entity.User;
 import org.userService.response.UserResponse;
 import org.userService.service.UserServiceWebClient;
@@ -34,20 +35,20 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userResponse);
     }
 
-//    @GetMapping("/role/{id}")
-//    public ResponseEntity<JsonNode> getRoleByUserId(@PathVariable("id") Long id) {
-//        JsonNode jsonNode = userServiceWebClient.findRoleByUserId(id);
-//        return ResponseEntity.status(HttpStatus.OK).body(jsonNode);
-//    }
+    @PutMapping("/rolechange/{id}")
+    public ResponseEntity<UserResponse> updateUserRole(@PathVariable("id") Long id, @RequestBody Role role) {
+        UserResponse userResponse = userServiceWebClient.changeRoleForUser(id, role);
+        return ResponseEntity.status(HttpStatus.OK).body(userResponse);
+    }
 
-    @PutMapping("/create")
+    @PostMapping("/create")
     private ResponseEntity<User> createUser(@RequestBody User user) {
         User userResponse = userServiceWebClient.saveUser(user);
         log.info("CREATE Users from UserController: {}", userResponse);
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     private ResponseEntity<UserResponse> updateUser(@PathVariable("id")Long id, @RequestBody User user) {
         UserResponse userResponse = userServiceWebClient.updateUser(id, user);
         log.info("UPDATE Users with id: {} from UserController: {}",id, userResponse);
@@ -55,10 +56,15 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    private ResponseEntity deleteUserById(@PathVariable("id") Long id) {
-        userServiceWebClient.deleteUserById(id);
+    private ResponseEntity<String> deleteUserById(@PathVariable("id") Long id) {
+        boolean deleteUserById =  userServiceWebClient.deleteUserById(id);
         log.info("DELETE User with id {} from UserController", id);
-        return ResponseEntity.status(HttpStatus.OK).build();
+
+        if (deleteUserById) {
+            return new ResponseEntity<>(("User deleted - User ID:" + id), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(("User deletion failed - User ID:" + id), HttpStatus.BAD_REQUEST);
+        }
     }
 
 

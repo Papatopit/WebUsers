@@ -4,11 +4,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.authService.user.User;
+import org.authService.configuration.WebClientConfiguration;
+import org.authService.user.RoleDto;
+import org.authService.user.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.BodyInserters;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 
 @Service
@@ -18,41 +23,60 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class ProxyService {
 
     @Autowired
-    private WebClient webClient;
+    private WebClientConfiguration roleConfiguration;
 
-    public JsonNode findRoleByUserId(Long userId){
-        JsonNode jsonNode = webClient.get().uri("/user/" + userId)
-                .retrieve().bodyToMono(JsonNode.class).block();
-        return jsonNode;
+    public Mono<JsonNode> changeUserRole(Long id, RoleDto roleDto) {
+        return roleConfiguration.webClient()
+                .put()
+                .uri("/rolechange/" + id)
+                .bodyValue(roleDto)
+                .retrieve()
+                .bodyToMono(JsonNode.class);
     }
 
-    public JsonNode getAllUsers(){
-        JsonNode jsonNode = webClient.get().uri("/all").retrieve().bodyToMono(JsonNode.class).block();
-        return jsonNode;
+    public Flux<JsonNode> getAllUsers() {
+        return roleConfiguration.webClient()
+                .get()
+                .uri("/all")
+                .retrieve()
+                .bodyToFlux(JsonNode.class);
     }
 
-    public JsonNode getUserDetails(Long id){
-        JsonNode jsonNode = webClient.get().uri("/user/{id}" + id)
-                .retrieve().bodyToMono(JsonNode.class).block();
-        return jsonNode;
+    public JsonNode getUserDetails(Long id) {
+        return roleConfiguration.webClient()
+                .get()
+                .uri("/user/" + id)
+                .retrieve().bodyToMono(JsonNode.class)
+                .block();
     }
 
-    public JsonNode createUser( User user){
-        JsonNode jsonNode = webClient.get().uri("/create" + user)
-                .retrieve().bodyToMono(JsonNode.class).block();
-        return jsonNode;
+    public Mono<JsonNode> createUser(UserDto userDto) {
+        return roleConfiguration.webClient()
+                .post()
+                .uri("/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(userDto)
+                .retrieve()
+                .bodyToMono(JsonNode.class);
     }
 
-    public JsonNode updateUser(Long id, User user){
-        JsonNode jsonNode = webClient.get().uri("/update/{id}" + id, user)
-                .retrieve().bodyToMono(JsonNode.class).block();
-        return jsonNode;
+    public Mono<JsonNode> updateUser(Long id, UserDto userDto) {
+        return roleConfiguration.webClient()
+                .put()
+                .uri("/update/" + id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(userDto)
+                .retrieve()
+                .bodyToMono(JsonNode.class);
     }
 
-    public JsonNode deleteUserById(Long id){
-        JsonNode jsonNode = webClient.get().uri("/delete/{id}" + id)
-                .retrieve().bodyToMono(JsonNode.class).block();
-        return jsonNode;
+    public JsonNode deleteUserById(Long id) {
+        return roleConfiguration.webClient()
+                .delete()
+                .uri("/delete/" + id)
+                .retrieve()
+                .bodyToMono(JsonNode.class)
+                .block();
     }
 
 }
