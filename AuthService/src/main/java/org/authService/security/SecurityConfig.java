@@ -20,34 +20,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf()
-//                .disable()
-//                .antMatchers(HttpMethod.DELETE)
-//                .hasRole("ADMIN")
-//                .antMatchers("/admin/**")
-//                .hasAnyRole("ADMIN")
-//                .antMatchers("/user/**")
-//                .hasAnyRole("USER", "ADMIN")
-//                .antMatchers("/login/**")
-//                .anonymous()
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-//                .httpBasic()
-//                .and()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//
-//        return http.build();
-
         return http
+                .httpBasic().disable()
+                .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests(
                         (authz) -> authz
-                                .antMatchers("/api/auth/login", "/api/auth/token").permitAll()
+                                .antMatchers("/login", "/token").permitAll()
                                 .anyRequest().authenticated()
                                 .and()
                                 .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)

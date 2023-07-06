@@ -8,6 +8,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
+import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.authService.dto.UserDto;
@@ -35,6 +36,8 @@ public class JwtProvider {
         this.jwtAccessSecret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtAccessSecret));
         this.jwtRefreshSecret = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtRefreshSecret));
     }
+
+
 
     public String generateAccessToken(@NonNull UserDto user) {
         final LocalDateTime now = LocalDateTime.now();
@@ -68,7 +71,7 @@ public class JwtProvider {
         return validateToken(refreshToken, jwtRefreshSecret);
     }
 
-    private boolean validateToken(@NonNull String token, @NonNull Key secret) {
+    private boolean validateToken(@NonNull String token,@NonNull Key secret) {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(secret)
@@ -97,7 +100,7 @@ public class JwtProvider {
         return getClaims(token, jwtRefreshSecret);
     }
 
-    private Claims getClaims(@NonNull String token, @NonNull Key secret) {
+    private Claims getClaims(@NonNull String token,@NonNull Key secret) {
         return Jwts.parserBuilder()
                 .setSigningKey(secret)
                 .build()

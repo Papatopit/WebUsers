@@ -1,8 +1,10 @@
 package org.authService.security;
 
 import io.jsonwebtoken.Claims;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -25,16 +27,16 @@ public class JwtFilter extends GenericFilterBean {
 
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
-                         FilterChain filterChain) throws IOException, ServletException {
-        final String token = getTokenFromRequest((HttpServletRequest) servletResponse);
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc)
+            throws IOException, ServletException {
+        final String token = getTokenFromRequest((HttpServletRequest) request);
         if (token != null && jwtProvider.validateAccessToken(token)) {
             final Claims claims = jwtProvider.getAccessClaims(token);
             final JwtAuthentication jwtInfoToken = JwtUtils.generate(claims);
             jwtInfoToken.setAuthenticated(true);
             SecurityContextHolder.getContext().setAuthentication(jwtInfoToken);
         }
-        filterChain.doFilter(servletRequest, servletResponse);
+        fc.doFilter(request, response);
     }
 
     private String getTokenFromRequest(HttpServletRequest request) {
