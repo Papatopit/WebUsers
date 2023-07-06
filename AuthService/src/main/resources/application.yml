@@ -4,15 +4,19 @@ spring:
   server:
     port: 8080
 
-#  security:
-#    user:
-#      name: admin
-#      password: admin
-#    jwt:
-#      secret-key: secret
+
+security:
+#  user:
+#     name: admin
+#     password: admin
+  jwt:
+      secret:
+        access: secret
+        refresh: secretRefresh
 #      expiration: 86400000 # a day
 #      refresh-token:
 #        expiration: 604800000 # 7 days
+
 addressservice:
   base:
     url: http://localhost:8081

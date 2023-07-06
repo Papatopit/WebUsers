@@ -1,9 +1,11 @@
 package dto;
 
-import org.authService.user.RoleDto;
-import org.authService.user.UserDto;
+import org.authService.dto.RoleDto;
+import org.authService.dto.UserDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.Collections;
 
 public class UserDtoTest {
     public static final String firstName = "Jorik";
@@ -21,7 +23,7 @@ public class UserDtoTest {
                 .lastName(lastName)
                 .birthday(birthday)
                 .email(email)
-                .role(RoleDto.USER)
+                .role(Collections.singleton(RoleDto.USER))
                 .build();
 
         Assertions.assertNotNull(result);
